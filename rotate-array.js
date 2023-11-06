@@ -4,23 +4,39 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var rotate = function (nums, k) {
-  for (i = 0; i < k; i++) {
-    const lastNumber = nums.pop();
-    nums.unshift(lastNumber);
+  const n = nums.length;
+  k = k % n;
+
+  if (k === 0) {
+    return nums;
   }
+  const temp = [];
+
+  for (let i = n - k; i < n; i++) {
+    temp.push(nums[i]);
+  }
+
+  for (let i = n - 1; i >= k; i--) {
+    nums[i] = nums[i - k];
+  }
+
+  for (let i = 0; i < k; i++) {
+    nums[i] = temp[i];
+  }
+
   return nums;
 };
 
 console.assert(
   JSON.stringify(rotate([1, 2, 3, 4, 5, 6, 7], 3)) ===
-    JSON.stringify([5, 6, 7, 1, 2, 3, 4]),
+  JSON.stringify([5, 6, 7, 1, 2, 3, 4]),
   "",
   "[1,2,3,4,5,6,7] Is not equal"
 );
 
 console.assert(
   JSON.stringify(rotate([-1, -100, 3, 99], 2)) ===
-    JSON.stringify([3, 99, -1, -100]),
+  JSON.stringify([3, 99, -1, -100]),
   "",
   "[-1,-100,3,99] Is not equal"
 );
